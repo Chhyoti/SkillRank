@@ -1,0 +1,131 @@
+/* ────────────────────────────── */
+/* HOME PAGE STYLES               */
+/* ────────────────────────────── */
+
+.site-header {
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 1.5rem 5%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    color: white;
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.hero {
+    text-align: center;
+    padding: 10rem 5% 7rem;
+    color: white;
+}
+
+.hero h2 {
+    font-size: 3.8rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.hero .tagline {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto 3.5rem;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 1.1rem 2.8rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-login {
+    background: white;
+    color: #4a4a4a;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.btn-login:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
+.btn-register {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-register:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;                 /* small space between cards */
+    flex-wrap: wrap;
+    padding: 0 5% 6rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    color: #333;
+}
+
+.feature-card h3 {
+    font-size: 1.9rem;
+    margin-bottom: 1.2rem;
+    color: #6366f1;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 4rem 0 3rem;
+    color: white;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .features {
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .hero {
+        padding: 6rem 6% 5rem;
+    }
+
+    .hero h2 {
+        font-size: 2.8rem;
+    }
+}

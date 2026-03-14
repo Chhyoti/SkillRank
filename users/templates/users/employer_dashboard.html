@@ -1,0 +1,194 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Employer Dashboard - SkillRank{% endblock %}
+
+{% block page_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    <!-- Header / Top Bar -->
+    <header class="dashboard-header">
+        <div class="header-brand">
+            <h1>SkillRank</h1>
+            <span class="header-subtitle">Employer Dashboard</span>
+        </div>
+
+        <div class="header-user">
+            <span class="user-name">Hello, {{ user.get_full_name|default:user.username }}!</span>
+            <form method="post" action="{% url 'users:logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <!-- Welcome Hero -->
+        <section class="welcome-hero">
+            <h2>Welcome to Your Employer Dashboard!</h2>
+            <p class="welcome-text">
+                Post new internships, review ranked candidates, manage applications,
+                and find the best interns based on real skill matching.
+            </p>
+        </section>
+
+        <!-- Quick Actions Grid -->
+        <section class="quick-actions">
+
+            <div class="action-card">
+                <div class="action-icon">📝</div>
+                <h3>Post Internship</h3>
+                <p>Create new internship opportunities and define required skills.</p>
+                <a href="{% url 'internships:create_posting' %}" class="action-btn">Create Posting</a>
+            </div>
+
+            <div class="action-card">
+                <div class="action-icon">👥</div>
+                <h3>View Candidates</h3>
+                <p>Browse ranked applicants based on skill match score.</p>
+                <a href="{% url 'internships:view_candidates' %}" class="action-btn">See Candidates</a>
+            </div>
+
+            <div class="action-card">
+                <div class="action-icon">📊</div>
+                <h3>Manage Applications</h3>
+                <p>Review, shortlist or reject incoming applications.</p>
+                <a href="#" class="action-btn">Manage Applications</a>
+            </div>
+
+            <div class="action-card">
+                <div class="action-icon">⭐</div>
+                <h3>Top Ranked Matches</h3>
+                <p>See interns with the highest skill match to your postings.</p>
+                <a href="#" class="action-btn">View Top Matches</a>
+            </div>
+
+        </section>
+
+        <!-- Your Active Postings -->
+        <section class="postings-section mt-5">
+
+            <h3 class="postings-title">Your Active Postings</h3>
+
+            {% if postings %}
+
+            <div class="row g-4 mt-4">
+
+                {% for posting in postings %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="posting-card">
+
+                        <!-- Posting Header -->
+                        <div class="posting-header d-flex align-items-center justify-content-between">
+
+                            <h5 class="mb-0">{{ posting.title }}</h5>
+
+                            {% if posting.application_count %}
+                                <span class="badge bg-primary">
+                                    {{ posting.application_count }} Application{{ posting.application_count|pluralize }}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    No Applications
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="posting-body">
+
+                            <p>{{ posting.description|truncatewords:35 }}</p>
+
+                            <div class="posting-meta">
+                                <div><strong>Location:</strong> {{ posting.location|default:"Remote" }}</div>
+                                <div><strong>Duration:</strong> {{ posting.duration_months }} months</div>
+                                <div><strong>Posted:</strong> {{ posting.created_at|date:"d M Y" }}</div>
+                            </div>
+
+                            <div class="posting-skills">
+                                <strong>Required Skills:</strong>
+
+                                <div class="skills-badges">
+                                    {% for skill in posting.required_skills.all %}
+                                        <span class="skill-badge">{{ skill.name }}</span>
+                                    {% empty %}
+                                        <span class="text-muted">No skills specified</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- View Applications Button -->
+                            <div class="mt-3">
+                                <a href="{% url 'internships:view_posting_applications' posting.pk %}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    View Applications
+                                    {% if posting.application_count %}
+                                        <span class="badge bg-primary ms-1">
+                                            {{ posting.application_count }}
+                                        </span>
+                                    {% endif %}
+                                </a>
+                            </div>
+
+                            <!-- Manage Applications Button -->
+                            <div class="mt-4 text-center">
+                                <a href="{% url 'internships:manage_applications' posting.pk %}" 
+                                   class="btn btn-outline-primary btn-sm px-4 py-2">
+                                    Manage Applications 
+                                    {% if posting.application_count %}
+                                        <span class="badge bg-primary ms-2">{{ posting.application_count }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary ms-2">0</span>
+                                    {% endif %}
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info text-center py-5 mt-4">
+
+                <h4>No Active Postings Yet</h4>
+
+                <p class="mb-4">
+                    Create your first internship posting to start receiving applications from talented interns.
+                </p>
+
+                <a href="{% url 'internships:create_posting' %}" class="btn btn-primary">
+                    + Post New Internship
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <p>SkillRank © 2026 • Internship Portal & Candidate Ranking System</p>
+    </footer>
+
+</div>
+
+{% endblock %}

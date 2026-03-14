@@ -1,0 +1,63 @@
+
+{% extends 'users/base.html' %}
+
+{% block title %}SkillRank - Internship Portal{% endblock %}
+
+{% block page_css %}
+    <!-- {% load static %} -->
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+    
+{% block content %}
+
+<!-- Header -->
+<header class="site-header">
+    <div class="header-content">
+        <h1 class="logo">SkillRank</h1>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h2>Connecting talented interns with meaningful opportunities</h2>
+    <p class="tagline">
+        through smart skill-based matching.
+    </p>
+<section class="hero">
+    <h2>Connecting talented interns with meaningful opportunities</h2>
+    <p class="tagline">
+        through smart skill-based matching.
+    </p>
+
+    <div class="hero-buttons">
+        <a href="{% url 'users:login' %}" class="btn btn-login">Login</a>
+        <a href="{% url 'users:register' %}" class="btn btn-register">Register Now</a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="feature-card intern-card">
+        <h3>For Interns</h3>
+        <p>
+            Build your profile, showcase skills,<br>
+            apply easily, and track application status in real time.
+        </p>
+    </div>
+
+    <div class="feature-card employer-card">
+        <h3>For Employers</h3>
+        <p>
+            Post internships, get ranked candidates<br>
+            based on skill match, and save time on manual shortlisting.
+        </p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <p>SkillRank — Smart. Transparent. Efficient.</p>
+</footer>
+
+{% endblock %}

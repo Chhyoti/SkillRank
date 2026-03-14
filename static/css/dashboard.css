@@ -1,0 +1,651 @@
+/* dashboard.css - clean, full-width intern dashboard */
+
+.dashboard-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* Header */
+.dashboard-header {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 1.2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-brand h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.header-brand .header-subtitle {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.user-name {
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.logout-btn {
+    padding: 0.7rem 1.6rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Main content */
+.dashboard-main {
+    padding: 4rem 5% 6rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Welcome Hero */
+.welcome-hero {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.welcome-hero h2 {
+    font-size: 3.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.welcome-text {
+    font-size: 1.35rem;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.7;
+    opacity: 0.95;
+}
+
+/* Quick Actions Grid */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    padding: 0 5% 5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.action-card {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;      /* adjust this value if needed */
+}
+
+
+.action-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.22);
+}
+
+.action-icon {
+    font-size: 4rem;
+    margin-bottom: 1.2rem;
+    color: #667eea;
+}
+
+.action-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.9rem;
+}
+
+.action-card p {
+    font-size: 1.05rem;
+    margin-bottom: 1.4rem;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 0.8rem 1.8rem;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 500;
+    align-self: center;
+}
+
+/* Skills and Postings Preview */
+.skills-preview ,.postings-preview{
+    background: rgba(255, 255, 255, 0.15);
+    padding: 3rem;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 4rem;
+}
+
+
+.skills-preview h3 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.skills-list-placeholder {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Footer */
+.dashboard-footer {
+    text-align: center;
+    padding: 3rem 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+}
+/* Skills section */
+.skills-section .card-title {
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 1.35rem;
+}
+
+.skill-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.97);
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
+}
+
+
+
+/* Responsive
+@media (max-width: 768px) {
+    .dashboard-main { padding: 3rem 4%; }
+    .welcome-hero h2 { font-size: 2.5rem; }
+    .quick-actions { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+/* Mobile — stack to 1 column */
+/* @media (max-width: 768px) {
+    .quick-actions {
+        grid-template-columns: 1fr;               /* 1 column on small screens */
+        /* gap: 2rem;
+        padding: 0 6% 4rem; */
+    /* }
+}  */
+
+/* Skills Section */
+
+.section-title {
+    font-size: 1.95rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+.skills-section .row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* Force exactly 2 columns */
+    gap: 1.5rem;                           /* Gap between cards */
+    margin-top: 1.5rem;                    /* Extra space after button */
+}
+
+
+
+.btn-add-skill {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 0.55rem 1.2rem;
+    font-size: 0.95rem;
+    border-radius: 50px;
+    transition: all 0.2s;
+    
+}
+
+.btn-add-skill:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Skill Card */
+.skill-card {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 14px;
+    padding: 1.8rem 1.6rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+}
+
+/* Icon */
+.skill-icon {
+    font-size: 3.2rem;
+    min-width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(102, 126, 234, 0.12);
+    border-radius: 12px;
+    color: #667eea;
+}
+
+/* Content */
+.skill-content {
+    flex: 1;
+}
+
+.skill-name {
+    font-size: 1.32rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+}
+
+.skill-proficiency .badge {
+    font-size: 0.95rem;
+    padding: 0.45em 0.9em;
+    border-radius: 50px;
+}
+
+/* Proficiency badge colors */
+.proficiency-1 { background: #dc3545; color: white; } /* Beginner */
+.proficiency-2 { background: #fd7e14; color: white; } /* Elementary */
+.proficiency-3 { background: #ffc107; color: #212529; } /* Intermediate */
+.proficiency-4 { background: #28a745; color: white; } /* Advanced */
+.proficiency-5 { background: #007bff; color: white; } /* Expert */
+
+.skill-added {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+
+ .btn-outline-danger {
+    color: #f8f3f4;
+    background-color: #6c757d;
+    border: 1px solid #6f5d5f;
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-outline-danger:hover {
+    background: #dc3545;
+    color: white;
+}
+
+/* Empty State */
+.empty-skills .empty-icon {
+    font-size: 4.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+}
+
+.empty-skills h4 {
+    color: white;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.empty-skills p {
+    color: rgba(255,255,255,0.9);
+}
+
+.empty-skills .btn-outline-primary {
+    border-color: rgba(255,255,255,0.6);
+    color: white;
+}
+
+.empty-skills .btn-outline-primary:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: white;
+}
+
+/* Force card layout for postings */
+.postings-preview .posting-card {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+    padding: 0 !important;
+    margin-bottom: 1.5rem !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+    overflow: hidden !important;
+}
+
+.postings-preview .posting-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.2) !important;
+}
+
+.postings-preview .posting-header {
+    background: #667eea !important;
+    color: white !important;
+    padding: 1rem 1.5rem !important;
+}
+
+.postings-preview .posting-header h5 {
+    margin: 0 !important;
+    font-size: 1.35rem !important;
+}
+
+.postings-preview .posting-body {
+    padding: 1.5rem !important;
+}
+
+.postings-preview .posting-body p {
+    font-size: 1rem !important;
+    color: #4b5563 !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1rem !important;
+}
+
+.postings-preview .posting-meta div {
+    font-size: 0.95rem !important;
+    color: #6c757d !important;
+    margin-bottom: 0.6rem !important;
+}
+
+.postings-preview .posting-skills strong {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    color: #1f2937 !important;
+}
+
+.postings-preview .skills-badges {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+}
+
+.postings-preview .skill-badge {
+    background: #6c757d !important;
+    color: white !important;
+    font-size: 0.85rem !important;
+    padding: 0.4em 0.8em !important;
+    border-radius: 50px !important;
+}  
+/* ──────────────────────────────────────────────── */
+/* YOUR ACTIVE POSTINGS – EMPLOYER DASHBOARD        */
+/* ──────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────── */
+/* EMPLOYER ACTIVE POSTINGS – CARD LAYOUT           */
+/* ──────────────────────────────────────────────── */
+
+.postings-preview {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    margin-top: 2rem;
+}
+
+.postings-preview h3 {
+    color: white;
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.postings-preview .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.8rem;
+}
+
+.posting-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 100%;
+}
+
+.posting-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+
+.posting-header {
+    background: #667eea;
+    color: white;
+    padding: 1rem 1.5rem;
+}
+
+.posting-header h5 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.posting-body {
+    padding: 1.5rem;
+}
+
+.posting-body p {
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.posting-meta div {
+    font-size: 0.95rem;
+    color: #6c757d;
+    margin-bottom: 0.6rem;
+}
+
+.posting-skills {
+    margin-top: 1rem;
+}
+
+.posting-skills strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+.skills-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.skill-badge {
+    background: #6c757d;
+    color: white;
+    font-size: 0.85rem;
+    padding: 0.4em 0.8em;
+    border-radius: 50px;
+}
+
+/* ──────────────────────────────────────────────── */
+/* EMPLOYER ACTIVE POSTINGS – CARD LAYOUT           */
+/* ──────────────────────────────────────────────── */
+
+/* ──────────────────────────────────────────────── */
+/* EMPLOYER ACTIVE POSTINGS – CARD LAYOUT           */
+/* ──────────────────────────────────────────────── */
+
+/* Force card layout for postings – add at the VERY END */
+/* ──────────────────────────────────────────────── */
+/* EMPLOYER POSTINGS – FINAL CARD LAYOUT            */
+/* ──────────────────────────────────────────────── */
+
+
+/* =========================
+   POSTINGS SECTION
+========================= */
+
+.postings-section {
+    margin-top: 40px;
+}
+
+.postings-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 35px;
+}
+
+/* POSTINGS GRID */
+.postings-section .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* =========================
+   POSTING CARD
+========================= */
+
+.posting-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 0;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+    transition: all 0.25s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hover effect */
+.posting-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   CARD HEADER
+========================= */
+
+.posting-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f1f1f1;
+    background: #f9fafb;
+}
+
+.posting-header h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+
+/* =========================
+   CARD BODY
+========================= */
+
+.posting-body {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.posting-body p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* =========================
+   META INFO
+========================= */
+
+.posting-meta {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #444;
+}
+
+.posting-meta div {
+    margin-bottom: 6px;
+}
+
+/* =========================
+   SKILLS SECTION
+========================= */
+
+.posting-skills {
+    margin-top: 16px;
+}
+
+.skills-badges {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-badge {
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.posting-header .badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.8em;
+    vertical-align: middle;
+}
+
+.posting-header .bg-primary {
+    background: #0d6efd !important;
+}
+
+.posting-header .bg-secondary {
+    background: #6c757d !important;
+}
+

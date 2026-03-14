@@ -1,0 +1,65 @@
+{% extends 'users/base.html' %}
+
+{% block title %}{{ intern_profile.user.get_full_name|default:intern_profile.user.username }} - SkillRank{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1000px; margin-top: 4rem;">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="text-white mb-0">
+            {{ intern_profile.user.get_full_name|default:intern_profile.user.username }}
+        </h1>
+        
+    </div>
+
+    <!-- Basic Info Card -->
+    <div class="card shadow-lg border-0 mb-5 overflow-hidden">
+        <div class="card-header bg-gradient-primary text-white">
+            <h5 class="mb-0">Basic Information</h5>
+        </div>
+        <div class="card-body bg-white">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <strong>Username:</strong> {{ intern_profile.user.username }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Email:</strong> {{ intern_profile.user.email|default:"Not provided" }}
+                </div>
+                {% if intern_profile.cv %}
+                    <div class="col-12 mt-3">
+                        <strong>Resume / CV:</strong>
+                        <a href="{{ intern_profile.cv.url }}" target="_blank" class="btn btn-sm btn-primary ms-2">
+                            <i class="fas fa-download me-1"></i> Download CV
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Card -->
+    <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="card-header bg-gradient-primary text-white">
+            <h5 class="mb-0">Skills & Proficiency</h5>
+        </div>
+        <div class="card-body bg-white">
+            {% if intern_profile.skills.exists %}
+                <div class="d-flex flex-wrap gap-3">
+                    {% for us in intern_profile.skills.all %}
+                        <span class="badge proficiency-badge proficiency-{{ us.proficiency }} px-3 py-2">
+                            {{ us.skill.name }} • {{ us.get_proficiency_display }}
+                        </span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted text-center py-4 fs-5">
+                    No skills added yet.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<a href="{% url 'internships:view_candidates' %}" class="btn btn-outline-light">
+            ← Back to Candidates
+        </a>
+{% endblock %}

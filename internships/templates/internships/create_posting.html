@@ -1,0 +1,19 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Post Internship - SkillRank{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin-top: 4rem;">
+    <h1>Post a New Internship</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Post Internship</button>
+    </form>
+
+    <p class="mt-4">
+        <a href="{% url 'users:employer_dashboard' %}">Back to Dashboard</a>
+    </p>
+</div>
+{% endblock %}

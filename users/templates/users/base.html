@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SkillRank{% endblock %}</title>
+    
+    <!-- {% load static %}  ← ADD THIS LINE HERE (must be inside <head>) -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/viewcandidates.css' %}">
+    <link rel="stylesheet" href="{% static 'css/manage.css' %}">
+
+    <!-- Now you can use {% static ... %} in any child template -->
+    
+    {% block page_css %}{% endblock %}
+</head>
+<body>
+
+    {% block content %}{% endblock %}
+
+</body>
+</html>

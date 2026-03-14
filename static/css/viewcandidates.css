@@ -1,0 +1,83 @@
+/* View Candidates & Profile – Polished Styles */
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.card.shadow-lg {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.75rem;
+    background: white;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    padding: 1rem 1.25rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.08);
+}
+
+.badge.bg-success {
+    font-size: 1rem;
+    padding: 0.6em 1.2em;
+}
+
+.btn-outline-light:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* Proficiency badges */
+.proficiency-badge {
+    font-size: 1rem;
+    padding: 0.6em 1.2em;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: transform 0.2s;
+}
+
+.proficiency-badge:hover {
+    transform: scale(1.05);
+}
+
+.proficiency-1 { background: #dc3545; color: white; } /* Beginner */
+.proficiency-2 { background: #fd7e14; color: white; } /* Elementary */
+.proficiency-3 { background: #ffc107; color: #212529; } /* Intermediate */
+.proficiency-4 { background: #28a745; color: white; } /* Advanced */
+.proficiency-5 { background: #007bff; color: white; } /* Expert */
+
+.btn.btn-outline-light {
+    margin-top: 35px;
+    border-color: rgba(255,255,255,0.4);
+    color: white;
+}
+
+
+.btn.btn-outline-light {
+    margin-top: 40px;
+    background-color: #212529;
+    padding: 1.5rem 1.75rem;
+    border-radius: 12px;
+}
+
+.lead.text-white-75.mb-5{
+    margin-bottom: 25px;
+}
+.card{
+    margin-bottom: 40px;
+}

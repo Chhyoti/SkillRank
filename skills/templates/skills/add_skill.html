@@ -1,0 +1,19 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Add Skill - SkillRank{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; margin-top: 4rem;">
+    <h1>Add a Skill</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Add Skill</button>
+    </form>
+
+    <p class="mt-4">
+        <a href="{% url 'users:intern_dashboard' %}">Back to Dashboard</a>
+    </p>
+</div>
+{% endblock %}
