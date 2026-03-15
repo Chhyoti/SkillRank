@@ -1,29 +1,23 @@
 {% extends 'users/base.html' %}
 
-{% block title %}Manage Applications - {{ posting.title }} - SkillRank{% endblock %}
+{% block title %}Manage Applications - SkillRank{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 1100px; margin-top: 4rem;">
+<div class="container" style="max-width: 1200px; margin-top: 4rem;">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-5">
         <h1 class="text-white mb-0">Manage Applications</h1>
-        <a href="{% url 'users:employer_dashboard' %}" class="btn btn-outline-light">
-            ← Back to Dashboard
-        </a>
+       
     </div>
 
-    <h3 class="text-white mb-4">{{ posting.title }}</h3>
-
-    <p class="text-white-75 mb-5">
-        Location: {{ posting.location|default:"Remote" }} • 
-        Duration: {{ posting.duration_months }} months • 
-        Posted: {{ posting.created_at|date:"d M Y" }}
+    <p class="lead text-white-75 mb-5">
+        Review and update status for all incoming applications across your postings.
     </p>
 
     {% if applications %}
         <div class="card shadow-lg border-0 overflow-hidden">
             <div class="card-header bg-gradient-primary text-white">
-                <h5 class="mb-0">Applications ({{ applications.count }})</h5>
+                <h5 class="mb-0">All Applications ({{ total_applications }})</h5>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -31,24 +25,26 @@
                         <thead>
                             <tr>
                                 <th>Intern</th>
+                                <th>Posting</th>
                                 <th>Applied On</th>
                                 <th>Cover Letter</th>
                                 <th>Status</th>
-                                <th>Change Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for app in applications %}
                                 <tr>
                                     <td>
-                                        <a href="{% url 'users:view_intern_profile' app.intern.pk %}" class="text-decoration-none">
+                                        <a href="{% url 'users:view_intern_profile' app.intern.pk %}" class="text-decoration-none text-primary">
                                             {{ app.intern.user.get_full_name|default:app.intern.user.username }}
                                         </a>
                                     </td>
+                                    <td>{{ app.posting.title }}</td>
                                     <td>{{ app.applied_at|date:"d M Y H:i" }}</td>
                                     <td>
                                         <div class="text-muted" style="max-width: 300px;">
-                                            {{ app.cover_letter|truncatewords:40|linebreaksbr|default:"No cover letter" }}
+                                            {{ app.cover_letter|truncatewords:35|linebreaksbr|default:"No cover letter" }}
                                         </div>
                                     </td>
                                     <td>
@@ -86,11 +82,14 @@
         <div class="card shadow-lg border-0 text-center py-5 bg-white bg-opacity-10">
             <div class="card-body">
                 <h4 class="text-white">No Applications Yet</h4>
-                <p class="text-white-75">
-                    This posting has not received any applications.
+                <p class="text-white-75 mb-0">
+                    No interns have applied to any of your postings yet.
                 </p>
             </div>
         </div>
     {% endif %}
 </div>
+ <a href="{% url 'users:employer_dashboard' %}" class="btn btn-outline-light">
+            ← Back to Dashboard
+        </a>
 {% endblock %}

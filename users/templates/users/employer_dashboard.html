@@ -60,7 +60,7 @@
                 <div class="action-icon">📊</div>
                 <h3>Manage Applications</h3>
                 <p>Review, shortlist or reject incoming applications.</p>
-                <a href="#" class="action-btn">Manage Applications</a>
+                <a href="{% url 'internships:manage_all_applications' %}" class="action-btn">Manage Applications</a>
             </div>
 
             <div class="action-card">
@@ -139,18 +139,7 @@
                                 </a>
                             </div>
 
-                            <!-- Manage Applications Button -->
-                            <div class="mt-4 text-center">
-                                <a href="{% url 'internships:manage_applications' posting.pk %}" 
-                                   class="btn btn-outline-primary btn-sm px-4 py-2">
-                                    Manage Applications 
-                                    {% if posting.application_count %}
-                                        <span class="badge bg-primary ms-2">{{ posting.application_count }}</span>
-                                    {% else %}
-                                        <span class="badge bg-secondary ms-2">0</span>
-                                    {% endif %}
-                                </a>
-                            </div>
+
 
                         </div>
 

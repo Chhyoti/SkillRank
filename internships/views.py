@@ -125,29 +125,38 @@ def view_candidates(request):
     }
     return render(request, 'internships/view_candidates.html', context)
 
-#manage applications view
+
+# manage application view 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import InternshipPosting, Application
+from django.db.models import Count
+from .models import Application
 
 
 @login_required
-def manage_applications(request, pk):
-    posting = get_object_or_404(InternshipPosting, pk=pk)
+def manage_all_applications(request):
+    profile = request.user.profile
+    if profile.role != 'EMPLOYER':
+        messages.error(request, "Only employers can manage applications.")
+        return redirect('users:home')
 
-    # Only the posting's owner can manage its applications
-    if posting.employer != request.user.profile:
-        messages.error(request, "You do not have permission to manage applications for this posting.")
-        return redirect('users:employer_dashboard')
+    # All applications to any of this employer's postings
+    applications = Application.objects.filter(
+        posting__employer=profile
+    ).select_related('intern__user', 'posting').order_by('-applied_at')
 
-    applications = posting.applications.select_related('intern__user').order_by('-applied_at')
+    # Optional: group by posting for display
+    postings_with_counts = profile.postings.annotate(
+        app_count=Count('applications')
+    ).filter(app_count__gt=0)
 
     context = {
-        'posting': posting,
         'applications': applications,
+        'total_applications': applications.count(),
+        'postings_with_counts': postings_with_counts,
     }
-    return render(request, 'internships/manage_applications.html', context)
+    return render(request, 'internships/manage_all_applications.html', context)
 
 
 @login_required
@@ -157,12 +166,11 @@ def update_application_status(request, application_id):
     if request.method == 'POST':
         new_status = request.POST.get('status')
         if new_status in dict(Application.STATUS_CHOICES):
-            old_status = application.status
             application.status = new_status
             application.save()
-            messages.success(request, f"Status changed from {old_status} to {new_status}.")
+            messages.success(request, f"Application status updated to {application.get_status_display()}.")
         else:
-            messages.error(request, "Invalid status selected.")
+            messages.error(request, "Invalid status.")
 
-    # Redirect back to the manage page for this posting
-    return redirect('internships:manage_applications', pk=application.posting.pk)
+    # Redirect back to global manage page
+    return redirect('internships:manage_all_applications')
