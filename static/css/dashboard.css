@@ -649,3 +649,19 @@
     background: #6c757d !important;
 }
 
+/* top matcheds  */
+.top-matches-preview .match-item {
+    min-width: 90px;
+    max-width: 120px;
+}
+
+.match-name {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    word-break: break-all;
+}
+
+.match-score {
+    font-size: 0.9rem;
+    padding: 0.4em 0.9em;
+}

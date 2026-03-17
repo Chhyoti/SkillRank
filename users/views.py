@@ -96,3 +96,38 @@ def view_intern_profile(request, profile_id):
     }
     return render(request, 'users/view_intern_profile.html', context)
 
+
+# top employees
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from internships.utils import get_ranked_candidates
+
+
+@login_required
+def employer_dashboard(request):
+    if request.user.profile.role != 'EMPLOYER':
+        return redirect('users:intern_dashboard')
+
+    # Postings with application count
+    postings = request.user.profile.postings.filter(
+        is_active=True
+    ).annotate(
+        application_count=Count('applications')
+    ).order_by('-created_at')
+
+    # Top 5 ranked matches for the card preview
+    top_matches = get_ranked_candidates(request.user.profile, limit=5)
+
+    # # Debug print (remove after testing)
+    # print("Dashboard view: Top matches count =", len(top_matches))
+    # if top_matches:
+    #     print("First match:", top_matches[0]['intern'].user.username, top_matches[0]['highest_score'])
+
+    # Context — make sure top_matches is here
+    context = {
+        'postings': postings,
+        'top_matches': top_matches,
+    }
+
+    return render(request, 'users/employer_dashboard.html', context)

@@ -11,4 +11,5 @@ urlpatterns = [
     # path('posting/<int:pk>/manage-applications/', views.manage_applications, name='manage_applications'),
     path('application/<int:application_id>/update-status/', views.update_application_status, name='update_application_status'),
     path('applications/manage/', views.manage_all_applications, name='manage_all_applications'),
+    path('top-matches/', views.view_top_matches, name='view_top_matches'),
 ]

@@ -1,0 +1,78 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Top Ranked Matches - SkillRank{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1100px; margin-top: 4rem;">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="text-white mb-0">Top Ranked Matches</h1>
+        <a href="{% url 'users:employer_dashboard' %}" class="btn btn-outline-light">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+    <p class="lead text-white-75 mb-5">
+        The interns with the highest skill match scores to your postings.
+    </p>
+
+    {% if top_matches %}
+        <div class="card shadow-lg border-0 overflow-hidden">
+            <div class="card-header bg-gradient-primary text-white">
+                <h5 class="mb-0">Top 10 Ranked Matches</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Intern</th>
+                                <th>Highest Match Score</th>
+                                <th>Applications</th>
+                                <th>Highest Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for candidate in top_matches %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        <a href="{% url 'users:view_intern_profile' candidate.intern.pk %}" class="text-decoration-none">
+                                            {{ candidate.intern.user.get_full_name|default:candidate.intern.user.username }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success px-3 py-2">
+                                            {{ candidate.highest_score }}%
+                                        </span>
+                                    </td>
+                                    <td>{{ candidate.application_count }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if candidate.highest_status == 'SHORTLISTED' %}success
+                                                          {% elif candidate.highest_status == 'VIEWED' %}info
+                                                          {% elif candidate.highest_status == 'REJECTED' %}danger
+                                                          {% else %}secondary{% endif %}">
+                                            {{ candidate.highest_status|default:"Pending" }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'users:view_intern_profile' candidate.intern.pk %}" class="btn btn-sm btn-outline-primary">
+                                            View Profile
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center py-5">
+            <h4>No Top Matches Yet</h4>
+            <p>No interns have applied to your postings yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

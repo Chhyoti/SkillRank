@@ -73,7 +73,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Max, Count
 from .models import InternshipPosting, Application
-from .utils import calculate_match_score
+from .utils import calculate_match_score, get_ranked_candidates
 
 
 @login_required
@@ -174,3 +174,25 @@ def update_application_status(request, application_id):
 
     # Redirect back to global manage page
     return redirect('internships:manage_all_applications')
+
+# top matched 
+
+@login_required
+def view_top_matches(request):
+    """
+    Shows only the top 10 highest-ranked interns (preview / focused view).
+    Used when clicking "View Top Matches" from the dashboard card.
+    """
+    profile = request.user.profile
+    if profile.role != 'EMPLOYER':
+        messages.error(request, "Only employers can view top matches.")
+        return redirect('users:home')
+
+    # Get only top 10
+    top_matches = get_ranked_candidates(profile, limit=10)
+
+    context = {
+        'top_matches': top_matches,
+        'total_top_matches': len(top_matches),
+    }
+    return render(request, 'internships/view_top_matches.html', context)
