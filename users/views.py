@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .forms import UserRegisterForm
+from .forms import ProfileForm, UserRegisterForm
 from django.http import HttpResponseRedirect
 from django.db.models import Count
 
@@ -131,3 +131,36 @@ def employer_dashboard(request):
     }
 
     return render(request, 'users/employer_dashboard.html', context)
+
+# view for editing profile (intern side)
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .forms import ProfileForm  # your form name
+
+
+@login_required
+def edit_intern_profile(request):
+    if request.user.profile.role != 'INTERN':
+        messages.error(request, "Only interns can edit this profile.")
+        return redirect('users:intern_dashboard')
+
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully! Your CV has been saved.")
+            return redirect('users:intern_dashboard')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = ProfileForm(instance=profile)
+
+    context = {
+        'form': form,
+        'profile': profile,  # to show current CV link
+        'title': 'Update Your Profile',
+    }
+    return render(request, 'users/edit_intern_profile.html', context)

@@ -3,8 +3,8 @@
 {% block title %}Intern Dashboard - SkillRank{% endblock %}
 
 {% block page_css %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -34,7 +34,7 @@
         <section class="welcome-hero">
             <h2>Welcome back to SkillRank!</h2>
             <p class="welcome-text">
-                Discover internships that match your skills, update your profile, track your applications, 
+                Discover internships that match your skills, update your profile, track your applications,
                 and get recommended opportunities where you rank highly.
             </p>
         </section>
@@ -45,7 +45,15 @@
                 <div class="action-icon">✏️</div>
                 <h3>Update Profile</h3>
                 <p>Add or improve skills, upload CV, edit bio to increase match score.</p>
-                <a href="#" class="action-btn">Go to Profile</a>
+                {% if profile.cv %}
+                <div class="mt-4">
+                    <p><strong>Current CV:</strong></p>
+                    <a href="{{ profile.cv.url }}" target="_blank" class="btn btn-outline-success btn-sm">
+                        View / Download Current CV
+                    </a>
+                </div>
+                {% endif %}
+                <a href="{%url 'users:edit_intern_profile'%}" class="action-btn">Go to Profile</a>
             </div>
 
             <div class="action-card">
@@ -80,63 +88,65 @@
             </div>
 
             {% if request.user.profile.skills.exists %}
-                <div class="row g-4">
-                    {% for us in request.user.profile.skills.all %}
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="skill-card" data-category="{{ us.skill.category|lower|default:'other' }}">
-                                <div class="skill-icon">
+            <div class="row g-4">
+                {% for us in request.user.profile.skills.all %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="skill-card" data-category="{{ us.skill.category|lower|default:'other' }}">
+                        <div class="skill-icon">
 
-                                    {% if 'programming' in us.skill.category|lower or 'python' in us.skill.name|lower %}💻
-                                    {% elif 'web' in us.skill.category|lower or 'django' in us.skill.name|lower or 'react' in us.skill.name|lower %}🌐
-                                    {% elif 'frontend' in us.skill.category|lower or 'html' in us.skill.name|lower or 'css' in us.skill.name|lower %}🎨
-                                    {% elif 'database' in us.skill.category|lower or 'sql' in us.skill.name|lower %}🗄️
-                                    {% elif 'design' in us.skill.category|lower or 'figma' in us.skill.name|lower %}✏️
-                                    {% elif 'soft' in us.skill.category|lower or 'communication' in us.skill.name|lower or 'teamwork' in us.skill.name|lower %}🤝
-                                    {% elif 'cloud' in us.skill.category|lower or 'aws' in us.skill.name|lower %}☁️
-                                    {% elif 'devops' in us.skill.category|lower or 'docker' in us.skill.name|lower %}🛠️
-                                    {% else %}🛠️{% endif %}
+                            {% if 'programming' in us.skill.category|lower or 'python' in us.skill.name|lower %}💻
+                            {% elif 'web' in us.skill.category|lower or 'django' in us.skill.name|lower or 'react' in
+                            us.skill.name|lower %}🌐
+                            {% elif 'frontend' in us.skill.category|lower or 'html' in us.skill.name|lower or 'css' in
+                            us.skill.name|lower %}🎨
+                            {% elif 'database' in us.skill.category|lower or 'sql' in us.skill.name|lower %}🗄️
+                            {% elif 'design' in us.skill.category|lower or 'figma' in us.skill.name|lower %}✏️
+                            {% elif 'soft' in us.skill.category|lower or 'communication' in us.skill.name|lower or
+                            'teamwork' in us.skill.name|lower %}🤝
+                            {% elif 'cloud' in us.skill.category|lower or 'aws' in us.skill.name|lower %}☁️
+                            {% elif 'devops' in us.skill.category|lower or 'docker' in us.skill.name|lower %}🛠️
+                            {% else %}🛠️{% endif %}
 
-                                </div>
+                        </div>
 
-                                <div class="skill-content">
-                                    <h5 class="skill-name">{{ us.skill.name }}</h5>
+                        <div class="skill-content">
+                            <h5 class="skill-name">{{ us.skill.name }}</h5>
 
-                                    <div class="skill-proficiency">
-                                        <span class="badge proficiency-badge proficiency-{{ us.proficiency }}">
-                                            {{ us.get_proficiency_display }}
-                                        </span>
-                                    </div>
+                            <div class="skill-proficiency">
+                                <span class="badge proficiency-badge proficiency-{{ us.proficiency }}">
+                                    {{ us.get_proficiency_display }}
+                                </span>
+                            </div>
 
-                                    <small class="skill-added">
-                                        Added: {{ us.added_at|date:"d M Y" }}
-                                    </small>
+                            <small class="skill-added">
+                                Added: {{ us.added_at|date:"d M Y" }}
+                            </small>
 
-                                    <div class="skill-actions mt-3">
-                                        <a href="{% url 'skills:remove_skill' us.pk %}" 
-                                           class="btn btn-sm btn-outline-danger"
-                                           onclick="return confirm('Remove {{ us.skill.name }}?');">
-                                            Remove
-                                        </a>
-                                    </div>
-                                </div>
-
+                            <div class="skill-actions mt-3">
+                                <a href="{% url 'skills:remove_skill' us.pk %}" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Remove {{ us.skill.name }}?');">
+                                    Remove
+                                </a>
                             </div>
                         </div>
-                    {% endfor %}
+
+                    </div>
                 </div>
+                {% endfor %}
+            </div>
 
             {% else %}
 
-                <div class="empty-skills text-center py-5">
-                    <div class="empty-icon">🧠</div>
-                    <h4 class="mb-3">No Skills Added Yet</h4>
-                    <p class="text-muted mb-4">
-                        Add your skills to unlock better internship matches and stand out to employers.
-                    </p>
-                    <a href="{% url 'skills:add_skill' %}" class="btn btn-outline-primary btn-lg">
-                        Add Your First Skill
-                    </a>
-                </div>
+            <div class="empty-skills text-center py-5">
+                <div class="empty-icon">🧠</div>
+                <h4 class="mb-3">No Skills Added Yet</h4>
+                <p class="text-muted mb-4">
+                    Add your skills to unlock better internship matches and stand out to employers.
+                </p>
+                <a href="{% url 'skills:add_skill' %}" class="btn btn-outline-primary btn-lg">
+                    Add Your First Skill
+                </a>
+            </div>
 
             {% endif %}
         </section>

@@ -1,19 +1,76 @@
 {% extends 'users/base.html' %}
 
-{% block title %}Post Internship - SkillRank{% endblock %}
+{% block title %}Post a New Internship - SkillRank{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 800px; margin-top: 4rem;">
-    <h1>Post a New Internship</h1>
+<div class="posting-page">
+    <div class="container narrow-container">
+        <div class="page-header">
+            <h1>Post a New Internship</h1>
+            <p class="lead">Create an opportunity and define the required skills.</p>
+        </div>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary mt-3">Post Internship</button>
-    </form>
+        <div class="form-card">
+            <form method="post" class="posting-form">
+                {% csrf_token %}
 
-    <p class="mt-4">
-        <a href="{% url 'users:employer_dashboard' %}">Back to Dashboard</a>
-    </p>
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <div class="error-text">{{ form.title.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="error-text">{{ form.description.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
+                    {{ form.location }}
+                    {% if form.location.errors %}
+                        <div class="error-text">{{ form.location.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Duration -->
+                <div class="form-group">
+                    <label for="{{ form.duration_months.id_for_label }}" class="form-label">Duration (months)</label>
+                    {{ form.duration_months }}
+                    {% if form.duration_months.errors %}
+                        <div class="error-text">{{ form.duration_months.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Required Skills – Multi-checkbox -->
+                <div class="form-group skills-group">
+                    <label class="form-label">Required Skills</label>
+                    <div class="skills-checkbox-container">
+                        {{ form.required_skills }}
+                    </div>
+                    {% if form.required_skills.errors %}
+                        <div class="error-text">{{ form.required_skills.errors }}</div>
+                    {% endif %}
+                    <small class="helper-text">
+                        Select all skills candidates should have (hold Ctrl/Cmd to select multiple)
+                    </small>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-submit">Post Internship</button>
+                    <a href="{% url 'users:employer_dashboard' %}" class="btn btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

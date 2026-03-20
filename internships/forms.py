@@ -8,5 +8,5 @@ class InternshipPostingForm(forms.ModelForm):
         fields = ['title', 'description', 'location', 'duration_months', 'required_skills']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 5}),
-            'required_skills': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'required_skills': forms.CheckboxSelectMultiple(),
         }

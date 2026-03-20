@@ -9,7 +9,6 @@
 
 {% block content %}
 
-
 <div class="dashboard-wrapper">
 
     <!-- Header / Top Bar -->
@@ -40,47 +39,40 @@
             </p>
         </section>
 
-        <!-- Quick Actions Grid -->
-        <section class="quick-actions">
+        <!-- Quick Actions – All 3 cards in one row -->
+        <section class="quick-actions mt-5">
+            <div class="action-row">
+                <!-- Card 1: Post Internship -->
+                <div class="action-card">
+                    <div class="action-icon">📝</div>
+                    <h3>Post Internship</h3>
+                    <p>Create new internship opportunities and define required skills.</p>
+                    <a href="{% url 'internships:create_posting' %}" class="action-btn">
+                        Create Posting
+                    </a>
+                </div>
 
-            <div class="action-card">
-                <div class="action-icon">📝</div>
-                <h3>Post Internship</h3>
-                <p>Create new internship opportunities and define required skills.</p>
-                <a href="{% url 'internships:create_posting' %}" class="action-btn">Create Posting</a>
+                <!-- Card 2: View & Manage Candidates -->
+                <div class="action-card">
+                    <div class="action-icon">👥</div>
+                    <h3>View & Manage Candidates</h3>
+                    <p>Browse ranked applicants and update their application status.</p>
+                    <a href="{% url 'internships:view_candidates' %}" class="action-btn">
+                        View & Manage
+                    </a>
+                </div>
+
+                <!-- Card 3: Top Ranked Matches -->
+                <div class="action-card">
+                    <div class="action-icon">⭐</div>
+                    <h3>Top Ranked Matches</h3>
+                    <p>See interns with the highest skill match to your postings.</p>
+                    <a href="{% url 'internships:view_candidates' %}" class="action-btn">
+                        View Top Matches
+                    </a>
+                </div>
             </div>
-
-            <div class="action-card">
-                <div class="action-icon">👥</div>
-                <h3>View Candidates</h3>
-                <p>Browse ranked applicants based on skill match score.</p>
-                <a href="{% url 'internships:view_candidates' %}" class="action-btn">See Candidates</a>
-            </div>
-
-            <div class="action-card">
-                <div class="action-icon">📊</div>
-                <h3>Manage Applications</h3>
-                <p>Review, shortlist or reject incoming applications.</p>
-                <a href="{% url 'internships:manage_all_applications' %}" class="action-btn">Manage Applications</a>
-            </div>
-
-           <div class="action-card">
-    <div class="action-icon">⭐</div>
-    <h3>Top Ranked Matches</h3>
-    <p>See interns with the highest skill match to your postings.</p>
-
-
-
-    <!-- Always show the button -->
-    <a href="{% url 'internships:view_candidates' %}" class="action-btn">
-        View Top Matches
-    </a>
-</div>
-
-
         </section>
-
-
 
         <!-- Your Active Postings -->
         <section class="postings-section mt-5">
@@ -138,8 +130,8 @@
 
                             <!-- View Applications Button -->
                             <div class="mt-3">
-                                <a href="{% url 'internships:view_posting_applications' posting.pk %}"
-                                    class="btn btn-sm btn-outline-primary">
+                                <a href="#"
+                                   class="btn btn-sm btn-outline-primary">
                                     View Applications
                                     {% if posting.application_count %}
                                     <span class="badge bg-primary ms-1">
@@ -148,8 +140,6 @@
                                     {% endif %}
                                 </a>
                             </div>
-
-
 
                         </div>
 
@@ -178,8 +168,6 @@
             </div>
 
             {% endif %}
-
-
 
         </section>
 

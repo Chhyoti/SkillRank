@@ -134,3 +134,9 @@ STATICFILES_DIRS = [
 ]
 # Only needed when deploying (collectstatic), but good to have
 STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+DEBUG = True
+
+
+

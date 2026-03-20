@@ -13,6 +13,8 @@ class Profile(models.Model):
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    # skills = models.ManyToManyField('skills.skill',through='skills.UserSkill',related_name='profiles')
+    # updated_at = models.DateTimeField(auto_now=True)
     # ... other fields like full_name, cv, etc. ...
 
     def __str__(self):
@@ -40,3 +42,23 @@ class Profile(models.Model):
 # @receiver(post_save, sender=User)
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=10, choices=[('INTERN', 'Intern'), ('EMPLOYER', 'Employer')])
+    
+    # Common fields
+    # bio = models.TextField(blank=True)
+    # location = models.CharField(max_length=100, blank=True)
+    
+    # NEW: CV field (only relevant for interns)
+    cv = models.FileField(
+        upload_to='cvs/%Y/%m/%d/',
+        null=True,
+        blank=True,
+        verbose_name="Curriculum Vitae (CV)",
+        help_text="Upload your CV/Resume (PDF preferred)"
+    )
+
+    def __str__(self):
+        return f"{self.user.username} ({self.role})"

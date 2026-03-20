@@ -52,7 +52,7 @@ def get_ranked_candidates(employer_profile, limit=None):
             'highest_status': intern_apps.aggregate(highest=Max('status'))['highest'] or 'PENDING',
         })
 
-    # candidate_list.sort(key=lambda x: x['highest_score'], reverse=True)
+    
     candidate_list.sort(
     key=lambda x: (
         -x['highest_score'],               # Primary: higher score first (negative for descending)
