@@ -1,0 +1,95 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Apply to {{ posting.title }} - SkillRank{% endblock %}
+
+{% block content %}
+<div class="apply-page">
+    <div class="container narrow">
+        <!-- Header -->
+        <div class="apply-header">
+            <h1>Apply to {{ posting.title }}</h1>
+            <p class="subtitle">Make a strong impression — this is your chance to stand out.</p>
+        </div>
+
+        <!-- Posting Summary -->
+        <div class="summary-card">
+            <div class="summary-row">
+                <div>
+                    <strong>Posted by:</strong><br>
+                    {{ posting.employer.user.get_full_name|default:posting.employer.user.username }}
+                </div>
+                <div>
+                    <strong>Location:</strong><br>
+                    {{ posting.location|default:"Remote" }}
+                </div>
+                <div>
+                    <strong>Duration:</strong><br>
+                    {{ posting.duration_months }} months
+                </div>
+            </div>
+
+            <div class="skills-section">
+                <strong>Required Skills:</strong>
+                <div class="skills-list">
+                    {% for skill in posting.required_skills.all %}
+                        <span class="skill-item">{{ skill.name }}</span>
+                    {% empty %}
+                        <span class="text-muted">No specific skills required</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form method="post" enctype="multipart/form-data" class="apply-form">
+            {% csrf_token %}
+
+            <!-- Cover Letter -->
+            <div class="form-group">
+                <label class="form-label">Cover Letter (optional)</label>
+                <textarea name="cover_letter" rows="8" class="form-textarea" 
+                          placeholder="Why are you interested in this internship? Highlight relevant skills, projects, experience, or motivation..."></textarea>
+                <div class="form-hint">
+                    This helps the employer understand your fit — keep it concise (200–400 words).
+                </div>
+            </div>
+
+            <!-- CV Section -->
+            <div class="form-group">
+                <label class="form-label">Your CV for this Application</label>
+
+                <!-- Priority Explanation -->
+                <div class="cv-note">
+                    <strong>Note:</strong> If you upload a CV here, employers will see this version instead of your profile CV.  
+                    If you skip this step, your current profile CV (if any) will be used automatically.
+                </div>
+
+                <!-- Current Profile CV Preview (if exists) -->
+                {% if request.user.profile.cv %}
+                    <div class="current-cv-preview">
+                        <div class="preview-label">Current Profile CV (will be used if you don't upload a new one):</div>
+                        <a href="{{ request.user.profile.cv.url }}" target="_blank" class="preview-link">
+                            View / Download Profile CV
+                        </a>
+                        <div class="preview-meta">
+                            Uploaded: {{ request.user.profile.updated_at|date:"d M Y" }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Upload Field -->
+                <input type="file" name="submitted_cv" accept=".pdf,.doc,.docx" class="file-input">
+                <div class="file-hint">
+                    Optional — PDF, DOC, DOCX • Max 5MB recommended
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="form-buttons">
+                <a href="{% url 'internships:browse_postings' %}" class="btn btn-cancel">Cancel</a>
+                <button type="submit" class="btn btn-submit">Confirm & Apply</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

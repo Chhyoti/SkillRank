@@ -12,117 +12,127 @@
 
     <!-- Intro -->
     <p class="lead text-white-75 mb-5">
-        Ranked interns across all your postings based on skill match score.  
+        Ranked interns across all your postings based on skill match score.
         Update application status directly here.
     </p>
 
     {% if candidates %}
-        <div class="card shadow-lg border-0 overflow-hidden">
-            <div class="card-header bg-gradient-primary text-white">
-                <h5 class="mb-0">Ranked Candidates ({{ total_candidates }})</h5>
-            </div>
+    <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="card-header bg-gradient-primary text-white">
+            <h5 class="mb-0">Ranked Candidates ({{ total_candidates }})</h5>
+        </div>
 
-            <div class="card-body p-0">
-                <div class="table-responsive">
+        <div class="card-body p-0">
+            <div class="table-responsive">
 
-                    <table class="table table-hover mb-0">
+                <table class="table table-hover mb-0">
 
-                        <thead>
-                            <tr>
-                                <th class="ps-4">Rank</th>
-                                <th>Intern</th>
-                                <th>Highest Match Score</th>
-                                <th>Posting</th>
-                                <th>Applied On</th>
-                                <th>Status</th>
-                                <th>Change Status</th>
-                                <th>CV</th> <!-- ✅ NEW COLUMN -->
-                            </tr>
-                        </thead>
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Rank</th>
+                            <th>Intern</th>
+                            <th>Highest Match Score</th>
+                            <th>Posting</th>
+                            <th>Applied On</th>
+                            <th>Status</th>
+                            <th>Change Status</th>
+                            <th>CV</th> <!-- ✅ NEW COLUMN -->
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            {% for candidate in candidates %}
-                                {% for app in candidate.applications %}
-                                    <tr>
+                    <tbody>
+                        {% for candidate in candidates %}
+                        {% for app in candidate.applications %}
+                        <tr>
 
-                                        <td class="ps-4 fw-bold">
-                                            {{ forloop.parentloop.counter }}
-                                        </td>
+                            <td class="ps-4 fw-bold">
+                                {{ forloop.parentloop.counter }}
+                            </td>
 
-                                        <td>
-                                            <a href="{% url 'users:view_intern_profile' candidate.intern.pk %}" class="text-decoration-none">
-                                                {{ candidate.intern.user.get_full_name|default:candidate.intern.user.username }}
-                                            </a>
-                                        </td>
+                            <td>
+                                <a href="{% url 'users:view_intern_profile' candidate.intern.pk %}"
+                                    class="text-decoration-none">
+                                    {{ candidate.intern.user.get_full_name|default:candidate.intern.user.username }}
+                                </a>
+                            </td>
 
-                                        <td>
-                                            <span class="badge bg-success px-3 py-2 fs-6">
-                                                {{ candidate.highest_score }}%
-                                            </span>
-                                        </td>
+                            <td>
+                                <span class="badge bg-success px-3 py-2 fs-6">
+                                    {{ candidate.highest_score }}%
+                                </span>
+                            </td>
 
-                                        <td>{{ app.posting.title }}</td>
+                            <td>{{ app.posting.title }}</td>
 
-                                        <td>{{ app.applied_at|date:"d M Y H:i" }}</td>
+                            <td>{{ app.applied_at|date:"d M Y H:i" }}</td>
 
-                                        <td>
-                                            <span class="badge bg-{% if app.status == 'SHORTLISTED' %}success
+                            <td>
+                                <span class="badge bg-{% if app.status == 'SHORTLISTED' %}success
                                                               {% elif app.status == 'VIEWED' %}info
                                                               {% elif app.status == 'REJECTED' %}danger
                                                               {% else %}secondary{% endif %} px-3 py-2">
-                                                {{ app.get_status_display }}
-                                            </span>
-                                        </td>
+                                    {{ app.get_status_display }}
+                                </span>
+                            </td>
 
-                                        <!-- Change Status -->
-                                        <td>
-                                            <form method="post" action="{% url 'internships:update_application_status' app.pk %}" class="d-flex align-items-center">
-                                                {% csrf_token %}
-                                                <select name="status" class="form-select form-select-sm me-2" style="width: auto;">
-                                                    {% for value, label in app.STATUS_CHOICES %}
-                                                        <option value="{{ value }}" {% if app.status == value %}selected{% endif %}>
-                                                            {{ label }}
-                                                        </option>
-                                                    {% endfor %}
-                                                </select>
-                                                <button type="submit" class="btn btn-sm btn-outline-primary">
-                                                    Update
-                                                </button>
-                                            </form>
-                                        </td>
+                            <!-- Change Status -->
+                            <td>
+                                <form method="post" action="{% url 'internships:update_application_status' app.pk %}"
+                                    class="d-flex align-items-center">
+                                    {% csrf_token %}
+                                    <select name="status" class="form-select form-select-sm me-2" style="width: auto;">
+                                        {% for value, label in app.STATUS_CHOICES %}
+                                        <option value="{{ value }}" {% if app.status==value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                                        Update
+                                    </button>
+                                </form>
+                            </td>
 
-                                        <!-- ✅ NEW CV DOWNLOAD COLUMN -->
-                                        <td>
-                                            {% if candidate.intern.cv %}
-                                                <a href="{{ candidate.intern.cv.url }}" target="_blank" class="btn btn-sm btn-outline-success">
-                                                    <i class="fas fa-download"></i> Download CV
-                                                </a>
-                                            {% else %}
-                                                <span class="text-muted">No CV uploaded</span>
-                                            {% endif %}
-                                        </td>
+                            <!-- ✅ NEW CV DOWNLOAD COLUMN -->
+                            <td>
+                                {% if app.submitted_cv %}
+                                <a href="{{ app.submitted_cv.url }}" target="_blank" class="btn btn-sm btn-success">
+                                    Download Application CV
+                                </a>
+                                <small class="d-block text-success mt-1">(uploaded during apply)</small>
+                                {% elif app.intern.profile.cv %}
+                                <a href="{{ app.intern.profile.cv.url }}" target="_blank"
+                                    class="btn btn-sm btn-primary">
+                                    Download Profile CV
+                                </a>
+                                <small class="d-block text-primary mt-1">(from intern profile)</small>
+                                {% else %}
+                                <span class="text-muted">No CV uploaded</span>
+                                {% endif %}
+                            </td>
 
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        </tbody>
 
-                    </table>
+                        </tr>
+                        {% endfor %}
+                        {% endfor %}
+                    </tbody>
 
-                </div>
+                </table>
+
             </div>
         </div>
+    </div>
 
     {% else %}
 
-        <div class="card shadow-lg border-0 text-center py-5 bg-white bg-opacity-10">
-            <div class="card-body">
-                <h4 class="text-white">No Candidates Yet</h4>
-                <p class="text-white-75 mb-0">
-                    No interns have applied to any of your postings yet.
-                </p>
-            </div>
+    <div class="card shadow-lg border-0 text-center py-5 bg-white bg-opacity-10">
+        <div class="card-body">
+            <h4 class="text-white">No Candidates Yet</h4>
+            <p class="text-white-75 mb-0">
+                No interns have applied to any of your postings yet.
+            </p>
         </div>
+    </div>
 
     {% endif %}
 

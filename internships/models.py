@@ -53,3 +53,29 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.intern.user.username} → {self.posting.title}"
+    
+    # update application model
+    # class Application(models.Model):
+    # STATUS_CHOICES = [
+    #     ('PENDING', 'Pending'),
+    #     ('VIEWED', 'Viewed'),
+    #     ('SHORTLISTED', 'Shortlisted'),
+    #     ('REJECTED', 'Rejected'),
+    # ]
+
+    # intern = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='applications')
+    # posting = models.ForeignKey('InternshipPosting', on_delete=models.CASCADE, related_name='applications')
+    # applied_at = models.DateTimeField(auto_now_add=True)
+    # status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    # cover_letter = models.TextField(blank=True)
+    
+    # # NEW: Optional CV uploaded specifically for this application
+    # submitted_cv = models.FileField(
+    #     upload_to='application_cvs/%Y/%m/%d/',
+    #     null=True,
+    #     blank=True,
+    #     verbose_name="Submitted CV for this Application"
+    # )
+
+    # def __str__(self):
+    #     return f"{self.intern.user.username} → {self.posting.title}"

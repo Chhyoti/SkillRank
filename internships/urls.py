@@ -28,4 +28,7 @@ urlpatterns = [
 
     # Status update (called from candidates page)
     path('application/<int:application_id>/update-status/', views.update_application_status, name='update_application_status'),
+    path('posting/<int:pk>/applications/', views.view_posting_applications, name='view_posting_applications'),
+    path('browse/', views.browse_postings, name='browse_postings'),
+    path('apply/<int:posting_id>/', views.apply_to_posting, name='apply_to_posting'),
 ]

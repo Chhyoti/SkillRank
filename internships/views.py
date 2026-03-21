@@ -104,3 +104,95 @@ def update_application_status(request, application_id):
             messages.error(request, "Invalid status.")
 
     return redirect('internships:view_candidates')
+
+
+@login_required
+def view_posting_applications(request, pk):
+    # Get the posting — only if it belongs to the current employer
+    posting = get_object_or_404(
+        InternshipPosting,
+        pk=pk,
+        employer=request.user.profile,
+        is_active=True
+    )
+
+    # Get all applications for this posting
+    applications = Application.objects.filter(posting=posting).select_related(
+        'intern__user'
+    ).order_by('-applied_at')
+
+    context = {
+        'posting': posting,
+        'applications': applications,
+        'title': f'Applications for {posting.title}',
+    }
+    return render(request, 'internships/view_posting_applications.html', context)
+
+# interns browsing view
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import InternshipPosting, Application
+
+
+@login_required
+def browse_postings(request):
+    if request.user.profile.role != 'INTERN':
+        messages.error(request, "Only interns can browse internships.")
+        return redirect('users:home')
+
+    # All currently active postings
+    postings = InternshipPosting.objects.filter(
+        is_active=True
+    ).select_related(
+        'employer__user'
+    ).prefetch_related(
+        'required_skills'
+    ).order_by('-created_at')
+
+    # IDs of postings this intern has already applied to
+    applied_posting_ids = set(
+        Application.objects.filter(
+            intern=request.user.profile
+        ).values_list('posting_id', flat=True)
+    )
+
+    context = {
+        'postings': postings,
+        'applied_posting_ids': applied_posting_ids,
+        'page_title': 'Browse Internships',
+    }
+    return render(request, 'internships/browse_postings.html', context)
+
+# apply internship view
+@login_required
+def apply_to_posting(request, posting_id):
+    if request.user.profile.role != 'INTERN':
+        messages.error(request, "Only interns can apply to internships.")
+        return redirect('users:home')
+
+    posting = get_object_or_404(InternshipPosting, pk=posting_id, is_active=True)
+
+    # Check if already applied
+    if Application.objects.filter(intern=request.user.profile, posting=posting).exists():
+        messages.info(request, "You have already applied to this internship.")
+        return redirect('internships:browse_postings')
+
+    if request.method == 'POST':
+        cover_letter = request.POST.get('cover_letter', '').strip()
+
+        Application.objects.create(
+            intern=request.user.profile,
+            posting=posting,
+            cover_letter=cover_letter,
+            status='PENDING'
+        )
+
+        messages.success(request, "Application submitted successfully!")
+        return redirect('internships:browse_postings')
+
+    # GET request – show confirmation form
+    context = {
+        'posting': posting,
+    }
+    return render(request, 'internships/apply_confirmation.html', context)

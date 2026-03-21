@@ -1,0 +1,85 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Browse Internships - SkillRank{% endblock %}
+
+{% block content %}
+<div class="browse-page">
+    <div class="container" style="max-width: 1200px; margin-top: 4rem;">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h1 class="text-white fw-bold">Browse Active Internships</h1>
+                <p class="text-white-75 mb-0">Find roles that match your skills and career goals.</p>
+            </div>
+            <div class="go">
+            <a href="{% url 'users:intern_dashboard' %}" class="btn btn-outline-light">
+                ← Back to Dashboard
+            </a>
+            </div>
+        </div>
+
+        <!-- Postings Grid -->
+        {% if postings %}
+            <div class="row g-4">
+                {% for posting in postings %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="posting-card">
+                            <div class="card-header">
+                                <h3 class="mb-2">{{ posting.title }}</h3>
+                                <div class="employer">
+                                    <small>Posted by</small>
+                                    <strong>{{ posting.employer.user.get_full_name|default:posting.employer.user.username }}</strong>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="meta mb-3">
+                                    <div><i class="fas fa-map-marker-alt me-2"></i>{{ posting.location|default:"Remote" }}</div>
+                                    <div><i class="fas fa-clock me-2"></i>{{ posting.duration_months }} months</div>
+                                    <div><i class="fas fa-calendar-alt me-2"></i>Posted {{ posting.created_at|timesince }} ago</div>
+                                </div>
+
+                                <p class="description mb-4">
+                                    {{ posting.description|truncatewords:45 }}
+                                </p>
+
+                                <div class="skills mb-4">
+                                    <small class="text-white-50 mb-2 d-block">Required Skills:</small>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for skill in posting.required_skills.all %}
+                                            <span class="skill-tag">{{ skill.name }}</span>
+                                        {% empty %}
+                                            <span class="text-muted">No specific skills required</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                {% if posting.pk in applied_posting_ids %}
+                                    <div class="applied-badge">
+                                        <i class="fas fa-check-circle me-2"></i> Already Applied
+                                    </div>
+                                {% else %}
+                                    <a href="{% url 'internships:apply_to_posting' posting.pk %}" 
+                                       class="btn btn-apply w-100">
+                                        Apply Now
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state text-center py-5">
+                <div class="empty-icon">🔍</div>
+                <h4 class="text-white">No Active Internships Right Now</h4>
+                <p class="text-white-75">
+                    New opportunities are added regularly — check back soon!
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

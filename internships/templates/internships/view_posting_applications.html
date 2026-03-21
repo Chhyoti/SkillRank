@@ -3,78 +3,101 @@
 {% block title %}Applications for {{ posting.title }} - SkillRank{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 1100px; margin-top: 4rem;">
-    <h1>Applications for: {{ posting.title }}</h1>
+<div class="applications-page">
+    <div class="container" style="max-width: 1200px; margin-top: 4rem;">
+        <!-- Header -->
+        <div class="page-header mb-5">
+            <h1 class="text-white fw-bold">Applications for</h1>
+            <h2 class="text-primary">{{ posting.title }}</h2>
+            <div class="meta-info text-white-75 mt-2">
+                <span class="me-3"><i class="fas fa-calendar-alt me-1"></i> Posted: {{ posting.created_at|date:"d M Y" }}</span>
+                <span><i class="fas fa-users me-1"></i> {{ applications.count }} Applicant{{ applications.count|pluralize }}</span>
+            </div>
+        </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <p class="lead text-muted">
-            Location: {{ posting.location|default:"Remote" }} • 
-            Duration: {{ posting.duration_months }} months • 
-            Posted: {{ posting.created_at|date:"d M Y" }}
-        </p>
-        <a href="{% url 'users:employer_dashboard' %}" class="btn btn-outline-secondary">
-            ← Back to Dashboard
-        </a>
-    </div>
+        <!-- Messages -->
+        {% if messages %}
+            <div class="messages mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
 
-    {% if applications %}
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Intern</th>
-                        <th>Applied On</th>
-                        <th>Cover Letter</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for app in applications %}
+        {% if applications %}
+            <div class="applications-table-container">
+                <table class="applications-table">
+                    <thead>
                         <tr>
-                            <td>
-                                {{ app.intern.user.get_full_name|default:app.intern.user.username }}
-                            </td>
-                            <td>{{ app.applied_at|date:"d M Y H:i" }}</td>
-                            <td>
-                                {{ app.cover_letter|truncatewords:30|default:"No cover letter provided" }}
-                            </td>
-                            <td>
-                                <span class="badge bg-{% if app.status == 'PENDING' %}secondary
-                                                  {% elif app.status == 'VIEWED' %}info
-                                                  {% elif app.status == 'SHORTLISTED' %}success
-                                                  {% elif app.status == 'REJECTED' %}danger{% endif %}">
-                                    {{ app.get_status_display }}
-                                </span>
-                            </td>
-                            <td>
-                                <form method="post" action="{% url 'internships:update_application_status' app.pk %}" class="d-flex align-items-center">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="next" value="{{ request.path }}">
-                                    <select name="status" class="form-select form-select-sm me-2" style="width: auto;">
-                                        {% for value, label in app.STATUS_CHOICES %}
-                                            <option value="{{ value }}" {% if app.status == value %}selected{% endif %}>
-                                                {{ label }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                    <button type="submit" class="btn btn-sm btn-outline-primary">
-                                        Update
-                                    </button>
-                                </form>
-                            </td>
+                            <th>Rank</th>
+                            <th>Intern</th>
+                            <th>Applied On</th>
+                            <th>Status</th>
+                            <th>Change Status</th>
+                            <th>CV</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% else %}
-        <div class="alert alert-info text-center py-5">
-            <h4>No Applications Yet</h4>
-            <p class="mb-4">
-                This posting has not received any applications yet.
-            </p>
-        </div>
-    {% endif %}
+                    </thead>
+                    <tbody>
+                        {% for app in applications %}
+                            <tr>
+                                <td class="rank">{{ forloop.counter }}</td>
+                                <td class="intern-name">
+                                    <a href="{% url 'users:view_intern_profile' app.intern.pk %}" class="intern-link">
+                                        {{ app.intern.user.get_full_name|default:app.intern.user.username }}
+                                    </a>
+                                </td>
+                                <td class="date">{{ app.applied_at|date:"d M Y H:i" }}</td>
+                                <td class="status">
+                                    <span class="status-badge status-{{ app.status|lower }}">
+                                        {{ app.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="change-status">
+                                    <form method="post" action="{% url 'internships:update_application_status' app.pk %}" class="status-form">
+                                        {% csrf_token %}
+                                        <select name="status" class="status-select">
+                                            {% for value, label in app.STATUS_CHOICES %}
+                                                <option value="{{ value }}" {% if app.status == value %}selected{% endif %}>
+                                                    {{ label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit" class="btn-update">Update</button>
+                                    </form>
+                                </td>
+                                <td class="cv-column">
+                                    {% if app.intern.profile.cv %}
+                                        <a href="{{ app.intern.profile.cv.url }}" target="_blank" class="btn-cv">
+                                            <i class="fas fa-download"></i> CV
+                                        </a>
+                                    {% else %}
+                                        <span class="no-cv">No CV</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <h3>No Applications Yet</h3>
+                <p>No interns have applied to this posting.</p>
+                <p class="text-muted">Check back later or share the posting link with potential candidates.</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-4">
+    <a href="{% url 'users:employer_dashboard' %}" class="btn btn-outline-light">
+         ← Back to Dashboard
+    </a>
+    </div>
 </div>
+
 {% endblock %}
