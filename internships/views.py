@@ -196,3 +196,22 @@ def apply_to_posting(request, posting_id):
         'posting': posting,
     }
     return render(request, 'internships/apply_confirmation.html', context)
+
+# list of interns applications on intern side
+@login_required
+def my_applications(request):
+    if request.user.profile.role != 'INTERN':
+        messages.error(request, "This page is for interns only.")
+        return redirect('users:home')
+
+    applications = Application.objects.filter(
+        intern=request.user.profile
+    ).select_related(
+        'posting__employer__user'
+    ).order_by('-applied_at')
+
+    context = {
+        'applications': applications,
+        'page_title': 'My Applications',
+    }
+    return render(request, 'internships/my_applications.html', context)

@@ -31,4 +31,5 @@ urlpatterns = [
     path('posting/<int:pk>/applications/', views.view_posting_applications, name='view_posting_applications'),
     path('browse/', views.browse_postings, name='browse_postings'),
     path('apply/<int:posting_id>/', views.apply_to_posting, name='apply_to_posting'),
+    path('my-applications/', views.my_applications, name='my_applications'),
 ]

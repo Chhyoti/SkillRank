@@ -1364,3 +1364,188 @@ textarea.form-control:focus {
 .btn-cancel:hover {
     background: rgba(255,255,255,0.08);
 }
+
+/* ────────────────────────────────────────────────
+   My Applications Page – Pure CSS
+───────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────
+   My Applications Page – Pure CSS polish
+───────────────────────────────────────────────── */
+
+/* ────────────────────────────────────────────────
+   My Applications – Clean Key-Value + Visual Polish
+───────────────────────────────────────────────── */
+.my-applications-page {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1.15rem;
+    color: #c3c8ff;
+    opacity: 0.9;
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.8rem;
+}
+
+.application-item {
+    background: rgba(25, 25, 45, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 100, 255, 0.18);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.28s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.application-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+.application-header {
+    background: linear-gradient(135deg, #4343c7 0%, #5c5ce6 100%);
+    padding: 1.6rem 2rem;
+    color: white;
+}
+
+.application-title {
+    margin: 0;
+    font-size: 1.55rem;
+    font-weight: 600;
+}
+
+.employer-info {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    opacity: 0.92;
+}
+
+.application-details {
+    padding: 1.6rem 2rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: #a0a8ff;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.detail-label i {
+    color: #818cf8;
+    font-size: 1.15rem;
+}
+
+.detail-value {
+    color: white;
+    font-weight: 500;
+}
+
+.application-status {
+    padding: 0 2rem 1.6rem;
+}
+
+.status-label {
+    font-weight: 600;
+    color: #c3c8ff;
+    margin-bottom: 0.7rem;
+    display: block;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 0.65rem 1.4rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    min-width: 140px;
+}
+
+.status-pending   { background: #6b7280; color: white; }
+.status-viewed    { background: #3b82f6; color: white; }
+.status-shortlisted { background: #10b981; color: white; }
+.status-rejected  { background: #ef4444; color: white; }
+
+.card-footer {
+    padding: 1.4rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    background: rgba(20,20,40,0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #818cf8;
+    color: #c3c8ff;
+    padding: 0.8rem;
+    border-radius: 10px;
+    transition: all 0.25s;
+}
+
+.btn-outline:hover {
+    background: rgba(129, 140, 248, 0.12);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: rgba(25,25,45,0.6);
+    border-radius: 16px;
+    border: 1px solid rgba(100,100,255,0.15);
+}
+
+.empty-icon {
+    font-size: 5.5rem;
+    margin-bottom: 1.5rem;
+    color: #94a3b8;
+}
+
+.empty-state h3 {
+    color: #e0e7ff;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: #94a3b8;
+    margin-bottom: 2rem;
+}
+.application-footer{
+    display: flex;
+    justify-content: center;
+}

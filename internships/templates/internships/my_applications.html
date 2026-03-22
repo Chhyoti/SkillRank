@@ -1,0 +1,70 @@
+{% extends 'users/base.html' %}
+
+{% block title %}My Applications - SkillRank{% endblock %}
+
+{% block content %}
+<div class="my-applications-page">
+    <div class="container" style="max-width: 1100px; margin: 5rem auto;">
+        <!-- Header -->
+        <div class="header-section mb-5">
+            <h1 class="page-title">My Applications</h1>
+            <p class="page-subtitle">
+                Track the current status of your internship applications
+            </p>
+        </div>
+
+        <!-- Applications -->
+        {% if applications %}
+            <div class="applications-grid">
+                {% for app in applications %}
+                    <div class="application-item">
+                        <div class="application-header">
+                            <h3 class="application-title">{{ app.posting.title }}</h3>
+                            <div class="employer-info">
+                                Posted by <strong>{{ app.posting.employer.user.get_full_name|default:app.posting.employer.user.username }}</strong>
+                            </div>
+                        </div>
+
+                        <div class="application-details">
+                            <div class="detail-row">
+                                <div class="detail-label"><i class="fas fa-map-marker-alt"></i> Location</div>
+                                <div class="detail-value">{{ app.posting.location|default:"Remote" }}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label"><i class="fas fa-clock"></i> Duration</div>
+                                <div class="detail-value">{{ app.posting.duration_months }} months</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label"><i class="fas fa-calendar-alt"></i> Applied</div>
+                                <div class="detail-value">{{ app.applied_at|timesince }} ago</div>
+                            </div>
+                        </div>
+
+                        <div class="application-status">
+                            <div class="status-label">Current Status</div>
+                            <div class="status-pill status-{{ app.status|lower }}">
+                                {{ app.get_status_display }}
+                            </div>
+                        </div>
+
+                        <div class="application-footer">
+                            <a href="{% url 'internships:browse_postings' %}" class="btn btn-outline">
+                                Browse More Opportunities
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <h3>No Applications Yet</h3>
+                <p>You haven't applied to any internships.</p>
+                <a href="{% url 'internships:browse_postings' %}" class="btn btn-primary">
+                    Browse Active Internships
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
