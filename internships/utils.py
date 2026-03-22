@@ -80,3 +80,25 @@ def calculate_match_score(intern_profile, posting):
 
     score = (total_weight / required.count()) * 100
     return round(score, 1)
+
+# Top match score of the internships on intern side
+from .models import InternshipPosting, Application
+from users.models import Profile  # adjust if different app
+
+def get_top_matches(intern_profile: Profile, limit: int = 6, min_score: float = 60.0):
+    """
+    Returns top matching active postings for the given intern profile.
+    Returns list of tuples: (posting, match_score)
+    """
+    active_postings = InternshipPosting.objects.filter(is_active=True)
+    
+    scored = []
+    for posting in active_postings:
+        score = calculate_match_score(intern_profile, posting)  # your existing function
+        if score >= min_score:
+            scored.append((posting, score))
+    
+    # Sort descending by score
+    scored.sort(key=lambda x: x[1], reverse=True)
+    
+    return scored[:limit]

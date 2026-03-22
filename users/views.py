@@ -65,6 +65,7 @@ def intern_dashboard(request):
     if request.user.profile.role != 'INTERN':
         return redirect('users:employer_dashboard')
     return render(request, 'users/intern_dashboard.html')
+    
 
 
 from django.contrib.auth.mixins import AccessMixin
@@ -101,7 +102,7 @@ def view_intern_profile(request, profile_id):
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from internships.utils import get_ranked_candidates
+from internships.utils import get_ranked_candidates, get_top_matches
 
 
 @login_required
@@ -118,13 +119,6 @@ def employer_dashboard(request):
 
     # Top 5 ranked matches for the card preview
     top_matches = get_ranked_candidates(request.user.profile, limit=5)
-
-    # # Debug print (remove after testing)
-    # print("Dashboard view: Top matches count =", len(top_matches))
-    # if top_matches:
-    #     print("First match:", top_matches[0]['intern'].user.username, top_matches[0]['highest_score'])
-
-    # Context — make sure top_matches is here
     context = {
         'postings': postings,
         'top_matches': top_matches,
@@ -164,3 +158,20 @@ def edit_intern_profile(request):
         'title': 'Update Your Profile',
     }
     return render(request, 'users/edit_intern_profile.html', context)
+
+
+# Top matches score view on internside view
+@login_required
+def top_matches(request):
+    if request.user.profile.role != 'INTERN':
+        messages.error(request, "This page is for interns only.")
+        return redirect('users:home')
+
+    # Reuse of  the same logic 
+    top_matches = get_top_matches(request.user.profile, limit=12, min_score=50.0)  
+
+    context = {
+        'top_matches': top_matches,
+        'page_title': 'Top Matches',
+    }
+    return render(request, 'users/top_matches.html', context)

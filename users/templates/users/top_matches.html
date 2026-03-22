@@ -1,0 +1,79 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Top Matches - SkillRank{% endblock %}
+
+{% block content %}
+<div class="top-matches-page">
+    <div class="container narrow">
+        <!-- Header -->
+        <div class="page-header mb-5">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <h1 class="page-title">Top Matches for You</h1>
+                    <p class="page-subtitle">
+                        These internships best match your current skill profile
+                    </p>
+                </div>
+                <a href="{% url 'users:intern_dashboard' %}" class="btn btn-outline-light px-4 py-2">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </div>
+
+        {% if top_matches %}
+            <div class="matches-grid">
+                {% for posting, score in top_matches %}
+                    <div class="match-card">
+                        <!-- Score Badge -->
+                        <div class="score-badge">
+                            {{ score|floatformat:0 }}%
+                        </div>
+
+                        <!-- Main Content -->
+                        <h3 class="match-title">{{ posting.title }}</h3>
+
+                        <div class="match-company">
+                            <i class="fas fa-building"></i>
+                            {{ posting.employer.user.get_full_name|default:posting.employer.user.username }}
+                        </div>
+
+                        <div class="match-info-grid">
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{ posting.location|default:"Remote" }}
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                {{ posting.duration_months }} months
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                Posted {{ posting.created_at|timesince }} ago
+                            </div>
+                        </div>
+
+                        <!-- Action -->
+                        <div class="apply">
+                            <a href="{% url 'internships:apply_to_posting' posting.pk %}" 
+                               class="btn btn-apply w-100">
+                                Apply Now
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-matches">
+                <div class="no-matches-icon">⭐</div>
+                <h4>No strong matches found yet</h4>
+                <p class="text-muted">
+                    Your skills are still building up. Update your profile to unlock better recommendations.
+                </p>
+                <a href="{% url 'users:edit_intern_profile' %}" class="btn btn-outline-primary mt-3">
+                    Update My Skills
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1549,3 +1549,138 @@ textarea.form-control:focus {
     display: flex;
     justify-content: center;
 }
+
+/* top_matches css for the intern side */
+.top-matches-page {
+    background: linear-gradient(135deg, #1e1e38 0%, #2a1a4a 100%);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+.narrow {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.page-header .page-title {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.4rem;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: #c3c8ff;
+    opacity: 0.9;
+}
+
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.8rem;
+}
+
+.match-card {
+    position: relative;
+    background: rgba(35, 35, 65, 0.88);
+    border-radius: 16px;
+    padding: 2rem 1.8rem;
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+
+.match-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.45);
+}
+
+.score-badge {
+    position: absolute;
+    top: -16px;
+    right: 1.5rem;
+    color: white;
+    font-weight: bold;
+    padding: 0.55rem 1.1rem;
+    border-radius: 50px;
+    font-size: 1.35rem;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    min-width: 70px;
+    text-align: center;
+}
+
+.match-title {
+    color: white;
+    font-size: 1.45rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+}
+
+.match-company {
+    font-size: 1rem;
+    color: #a0a8ff;
+    margin-bottom: 1.4rem;
+}
+
+.match-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.98rem;
+    color: #d1d5ff;
+}
+
+.info-item i {
+    color: #818cf8;
+    font-size: 1.2rem;
+    width: 26px;
+    text-align: center;
+}
+
+.match-action .btn-apply {
+    background: #6366f1;
+    border: none;
+    padding: 0.85rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.25s;
+}
+
+.match-action .btn-apply:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+}
+
+.no-matches {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: rgba(30,30,50,0.6);
+    border-radius: 16px;
+    border: 1px solid rgba(100,100,255,0.15);
+}
+
+.no-matches-icon {
+    font-size: 5.5rem;
+    margin-bottom: 1.5rem;
+    color: #94a3b8;
+}
+
+.no-matches h4 {
+    color: #e0e7ff;
+    margin-bottom: 1rem;
+}
+.score-badge{
+    margin-top: 70px;
+}
+.apply{
+    margin-top: 45px;
+    display: flex;
+    justify-content: center;
+}
