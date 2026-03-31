@@ -1,4 +1,5 @@
 from pyexpat.errors import messages
+from urllib import request
 from django.shortcuts import render
 
 # Create your views here.
@@ -175,3 +176,20 @@ def top_matches(request):
         'page_title': 'Top Matches',
     }
     return render(request, 'users/top_matches.html', context)
+
+# employer side top matched candidates views
+@login_required
+def employer_top_matches(request):
+    if request.user.profile.role != 'EMPLOYER':
+        messages.error(request, "This page is for employers only.")
+        return redirect('users:employer_dashboard')
+
+    top_candidates = get_ranked_candidates(request.user.profile, limit=15)
+
+    # Filter only candidates with 50% or higher
+    top_candidates = [c for c in top_candidates if c.get('highest_score', 0) >= 50]
+
+    context = {
+        'top_candidates': top_candidates,
+    }
+    return render(request, 'internships/view_top_matches.html', context)

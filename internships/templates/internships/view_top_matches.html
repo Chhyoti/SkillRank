@@ -3,76 +3,132 @@
 {% block title %}Top Ranked Matches - SkillRank{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 1100px; margin-top: 4rem;">
-    <div class="d-flex justify-content-between align-items-center mb-5">
-        <h1 class="text-white mb-0">Top Ranked Matches</h1>
-        <a href="{% url 'users:employer_dashboard' %}" class="btn btn-outline-light">
-            ← Back to Dashboard
-        </a>
+<div class="container" style="max-width: 1200px; margin-top: 4rem;">
+
+    <!-- Header -->
+    <div class="Topmatched">
+        <h1 >Top Ranked Matches</h1>
+        <h2>Interns with the highest skill matchacross all your postings.
+        You can update their application status directly here.</h2>
     </div>
 
-    <p class="lead text-white-75 mb-5">
-        The interns with the highest skill match scores to your postings.
-    </p>
+   
 
-    {% if top_matches %}
-        <div class="card shadow-lg border-0 overflow-hidden">
-            <div class="card-header bg-gradient-primary text-white">
-                <h5 class="mb-0">Top 10 Ranked Matches</h5>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Intern</th>
-                                <th>Highest Match Score</th>
-                                <th>Applications</th>
-                                <th>Highest Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for candidate in top_matches %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>
-                                        <a href="{% url 'users:view_intern_profile' candidate.intern.pk %}" class="text-decoration-none">
-                                            {{ candidate.intern.user.get_full_name|default:candidate.intern.user.username }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-success px-3 py-2">
-                                            {{ candidate.highest_score }}%
-                                        </span>
-                                    </td>
-                                    <td>{{ candidate.application_count }}</td>
-                                    <td>
-                                        <span class="badge bg-{% if candidate.highest_status == 'SHORTLISTED' %}success
-                                                          {% elif candidate.highest_status == 'VIEWED' %}info
-                                                          {% elif candidate.highest_status == 'REJECTED' %}danger
-                                                          {% else %}secondary{% endif %}">
-                                            {{ candidate.highest_status|default:"Pending" }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'users:view_intern_profile' candidate.intern.pk %}" class="btn btn-sm btn-outline-primary">
-                                            View Profile
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+    {% if top_candidates %}
+    <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="card-header bg-gradient-primary text-white">
+            <h5 class="mb-0">
+                Top Ranked Candidates ({{ top_candidates|length }})
+            </h5>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+
+                <table class="table table-hover mb-0">
+
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Rank</th>
+                            <th>Intern</th>
+                            <th>Highest Match Score</th>
+                            <th>Posting</th>
+                            <th>Matched On</th>
+                            <th>CV</th>
+                            <th>Change Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for candidate in top_candidates %}
+                        <tr>
+                            <td class="ps-4 fw-bold">
+                                {{ forloop.counter }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ candidate.intern.user.get_full_name|default:candidate.intern.user.username }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                <span class="badge bg-success px-3 py-2 fs-6">
+                                    {{ candidate.highest_score|floatformat:1 }}%
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ candidate.best_posting_title|default:"Multiple postings" }}
+                            </td>
+
+                            <td>
+                                {{ candidate.total_applications|default:0 }} application(s)
+                            </td>
+
+                            <!-- CV -->
+                            <td>
+                                {% if candidate.intern.cv %}
+                                    <a href="{{ candidate.intern.cv.url }}" target="_blank"
+                                       class="btn btn-sm btn-success">
+                                        Download CV
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">No CV uploaded</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Status -->
+                            <td>
+                                {% if candidate.application %}
+                                <form method="post"
+                                      action="{% url 'internships:update_application_status' candidate.application.pk %}"
+                                      class="d-flex align-items-center">
+                                    {% csrf_token %}
+
+                                    <select name="status"
+                                            class="form-select form-select-sm me-2"
+                                            style="width: auto;">
+
+                                        {% for value, label in candidate.application.STATUS_CHOICES %}
+                                            <option value="{{ value }}"
+                                                {% if candidate.application.status == value %}selected{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endfor %}
+
+                                    </select>
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-primary">
+                                        Update
+                                    </button>
+                                </form>
+                                {% else %}
+                                    <span class="text-muted">No application</span>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
             </div>
         </div>
+    </div>
+
     {% else %}
-        <div class="alert alert-info text-center py-5">
-            <h4>No Top Matches Yet</h4>
-            <p>No interns have applied to your postings yet.</p>
+    <div class="card shadow-lg border-0 text-center py-5 bg-white bg-opacity-10">
+        <div class="card-body">
+            <h4 class="text-white">No Top Ranked Matches Yet</h4>
+            <p class="text-white-75 mb-0">
+                No interns have applied to any of your postings yet.
+            </p>
         </div>
+    </div>
     {% endif %}
+
 </div>
 {% endblock %}

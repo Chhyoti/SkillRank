@@ -14,9 +14,6 @@
                         These internships best match your current skill profile
                     </p>
                 </div>
-                <a href="{% url 'users:intern_dashboard' %}" class="btn btn-outline-light px-4 py-2">
-                    ← Back to Dashboard
-                </a>
             </div>
         </div>
 
@@ -66,7 +63,7 @@
             <div class="no-matches">
                 <div class="no-matches-icon">⭐</div>
                 <h4>No strong matches found yet</h4>
-                <p class="text-muted">
+                <p class="text">
                     Your skills are still building up. Update your profile to unlock better recommendations.
                 </p>
                 <a href="{% url 'users:edit_intern_profile' %}" class="btn btn-outline-primary mt-3">

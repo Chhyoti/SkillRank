@@ -32,4 +32,5 @@ urlpatterns = [
     path('browse/', views.browse_postings, name='browse_postings'),
     path('apply/<int:posting_id>/', views.apply_to_posting, name='apply_to_posting'),
     path('my-applications/', views.my_applications, name='my_applications'),
+    #path('top-matches/', views.employer_top_matches, name='employer_top_matches'),
 ]

@@ -1,4 +1,4 @@
-/* dashboard.css - clean, full-width intern dashboard */
+/*intern dashboard */
 
 .dashboard-wrapper {
     min-height: 100vh;
@@ -195,7 +195,7 @@
 
 
 
-/* Responsive
+/* /* Responsive */
 @media (max-width: 768px) {
     .dashboard-main { padding: 3rem 4%; }
     .welcome-hero h2 { font-size: 2.5rem; }
@@ -203,13 +203,12 @@
 }
 
 /* Mobile — stack to 1 column */
-/* @media (max-width: 768px) {
+@media (max-width: 768px) {
     .quick-actions {
-        grid-template-columns: 1fr;               /* 1 column on small screens */
-        /* gap: 2rem;
-        padding: 0 6% 4rem; */
-    /* }
-}  */
+        grid-template-columns: 1fr;              
+        padding: 0 6% 4rem; 
+     }
+} 
 
 /* Skills Section */
 
@@ -876,9 +875,8 @@ textarea.form-control:focus {
     margin-top: 0.4rem;
 }
 
-/* ────────────────────────────────────────────────
-   View Applications Page – Pure CSS
-───────────────────────────────────────────────── */
+
+/* View & Manage Candidate  Page (Employer) */
 
 .applications-page {
     background: linear-gradient(135deg, #1e1e38 0%, #2a1a4a 100%);
@@ -890,6 +888,18 @@ textarea.form-control:focus {
     text-align: center;
     margin-bottom: 2.5rem;
     color: white;
+}
+.ViewCandidates h1,h2{
+    border: 1px solid rgba(100, 100, 255, 0.2);
+    padding: 2.5rem;
+    color: white;
+    text-align: center;
+}
+.ViewCandidates p{
+    color: white;
+    font-size: 2 rem;
+    margin-top: 1rem;
+    opacity: 0.85;
 }
 
 .page-header h1 {
@@ -1049,9 +1059,8 @@ textarea.form-control:focus {
 }
 
 
-/* ────────────────────────────────────────────────
-   Browse Postings Page
-───────────────────────────────────────────────── */
+
+   /* Browse Postings Page */
 
 .browse-page {
     background: linear-gradient(135deg, #1e1e38 0%, #2a1a4a 100%);
@@ -1062,12 +1071,16 @@ textarea.form-control:focus {
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .page-header h1 {
     font-size: 2.8rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
+    color: white;
 }
 
 .lead {
@@ -1076,6 +1089,7 @@ textarea.form-control:focus {
 }
 
 .posting-card {
+    margin-bottom: 1.5rem;
     background: rgba(30, 30, 50, 0.8);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(100, 100, 255, 0.2);
@@ -1083,7 +1097,10 @@ textarea.form-control:focus {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
+   
 }
+   
+
 
 .posting-card:hover {
     transform: translateY(-8px);
@@ -1128,10 +1145,12 @@ textarea.form-control:focus {
 
 .skill-tag {
     background: rgba(99, 102, 241, 0.15);
-    color: #c7d2fe;
+    color: #0d36db;
     padding: 0.4rem 0.9rem;
     border-radius: 999px;
     font-size: 0.85rem;
+    margin: 0.25rem 0.25rem 0 0;
+    display: inline-block;
 }
 
 .card-footer {
@@ -1173,9 +1192,9 @@ textarea.form-control:focus {
     margin-bottom: 1rem;
 }
 
-/* ────────────────────────────────────────────────
-   Apply Confirmation Page – Pure CSS
-───────────────────────────────────────────────── */
+
+   /* Apply Confirmation Page */
+
 .go{
     margin-bottom: 45px;
 }
@@ -1365,16 +1384,10 @@ textarea.form-control:focus {
     background: rgba(255,255,255,0.08);
 }
 
-/* ────────────────────────────────────────────────
-   My Applications Page – Pure CSS
-───────────────────────────────────────────────── */
-/* ────────────────────────────────────────────────
-   My Applications Page – Pure CSS polish
-───────────────────────────────────────────────── */
 
-/* ────────────────────────────────────────────────
-   My Applications – Clean Key-Value + Visual Polish
-───────────────────────────────────────────────── */
+
+/* My Applications  */
+
 .my-applications-page {
     min-height: 100vh;
     padding: 2rem 1rem;
@@ -1683,4 +1696,65 @@ textarea.form-control:focus {
     margin-top: 45px;
     display: flex;
     justify-content: center;
+}
+.text {
+    color:white;
+}
+
+
+/* css for the top matches employer side */
+.top-matches-page .table {
+    background: rgba(35, 35, 65, 0.9);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.top-matches-page .table th {
+    background: rgba(30, 30, 50, 0.95);
+    color: #c7d2fe;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.top-matches-page .table td {
+    color: #e0e7ff;
+    padding: 1rem;
+}
+
+.top-matches-page .badge {
+    font-weight: 600;
+}
+
+.no-matches {
+    background: rgba(30,30,50,0.6);
+    border-radius: 16px;
+    padding: 5rem 2rem;
+    border: 1px solid rgba(100,100,255,0.15);
+    text-align: center;
+}
+
+.no-matches-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    color: #94a3b8;
+}
+/* employer top matches  */
+.top-matches-page{
+    background: whitesmoke;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+.Topmatched h1,h2{
+    /* background: rgba(53, 18, 149, 0.392); */
+    /* border-radius: 30px; */
+    padding: 2rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.Topmatched p{
+    color: #1d1d1d;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 10px;
 }

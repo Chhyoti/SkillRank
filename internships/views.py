@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count, Max
+
+from internships.utils import get_ranked_candidates
 from .models import InternshipPosting, Application
 from .forms import InternshipPostingForm  # assume you have this
 
@@ -128,42 +130,41 @@ def view_posting_applications(request, pk):
     }
     return render(request, 'internships/view_posting_applications.html', context)
 
-# interns browsing view
+# Browing, filter and  search internship  for intern 
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from .models import InternshipPosting, Application
-
+from django.db.models import Q
+from .models import InternshipPosting
 
 @login_required
 def browse_postings(request):
     if request.user.profile.role != 'INTERN':
-        messages.error(request, "Only interns can browse internships.")
         return redirect('users:home')
 
-    # All currently active postings
-    postings = InternshipPosting.objects.filter(
-        is_active=True
-    ).select_related(
-        'employer__user'
-    ).prefetch_related(
-        'required_skills'
-    ).order_by('-created_at')
+    postings = InternshipPosting.objects.filter(is_active=True).select_related('employer__user')
 
-    # IDs of postings this intern has already applied to
-    applied_posting_ids = set(
-        Application.objects.filter(
-            intern=request.user.profile
-        ).values_list('posting_id', flat=True)
-    )
+    # Search
+    search_query = request.GET.get('search', '').strip()
+    if search_query:
+        postings = postings.filter(
+            Q(title__icontains=search_query) |
+            Q(employer__user__username__icontains=search_query)
+        )
+    # Sort by Newest / Oldest
+    sort_by = request.GET.get('sort', 'newest')
+    if sort_by == 'oldest':
+        postings = postings.order_by('created_at')
+    else:
+        postings = postings.order_by('-created_at')   # Newest first (default)
 
     context = {
         'postings': postings,
-        'applied_posting_ids': applied_posting_ids,
-        'page_title': 'Browse Internships',
+        'search_query': search_query,
+        'selected_sort': sort_by,
+        'applied_posting_ids': set(request.user.profile.applications.values_list('posting_id', flat=True))
     }
     return render(request, 'internships/browse_postings.html', context)
-
+    
 # apply internship view
 @login_required
 def apply_to_posting(request, posting_id):
@@ -215,3 +216,8 @@ def my_applications(request):
         'page_title': 'My Applications',
     }
     return render(request, 'internships/my_applications.html', context)
+
+
+
+
+

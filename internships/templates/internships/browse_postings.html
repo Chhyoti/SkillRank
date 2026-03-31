@@ -1,24 +1,45 @@
 {% extends 'users/base.html' %}
 
-{% block title %}Browse Internships - SkillRank{% endblock %}
+{% block title %}Browse Opportunities - SkillRank{% endblock %}
 
 {% block content %}
 <div class="browse-page">
     <div class="container" style="max-width: 1200px; margin-top: 4rem;">
+
         <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="page-header">
             <div>
-                <h1 class="text-white fw-bold">Browse Active Internships</h1>
-                <p class="text-white-75 mb-0">Find roles that match your skills and career goals.</p>
-            </div>
-            <div class="go">
-            <a href="{% url 'users:intern_dashboard' %}" class="btn btn-outline-light">
-                ← Back to Dashboard
-            </a>
+                <h1 class="postings-title">Browse Active Internships</h1>
+                <p class="subhead">Find roles that match your skills and career goals.</p>
             </div>
         </div>
 
-        <!-- Postings Grid -->
+        <!-- Search + Sort Side by Side -->
+        <form method="get" class="filter-form mb-5">
+            <div class="row g-3 align-items-center">
+                <!-- Search Bar -->
+                <div class="col-md-8">
+                    <input type="text" name="search" class="form-control search-input" 
+                           placeholder="Search by title or company..." 
+                           value="{{ search_query }}">  
+                            
+                </div>
+
+
+                <!-- Sort Dropdown -->
+                <div class="dropdown">
+                    <select name="sort" class="form-select" onchange="this.form.submit()">
+                        <option value="newest" {% if selected_sort == 'newest' or not selected_sort %}selected{% endif %}>
+                            Newest First
+                        </option>
+                        <option value="oldest" {% if selected_sort == 'oldest' %}selected{% endif %}>
+                            Oldest First
+                        </option>      
+                    </select>
+                </div>
+            </div>
+        </form>
+
         {% if postings %}
             <div class="row g-4">
                 {% for posting in postings %}
@@ -80,6 +101,7 @@
                 </p>
             </div>
         {% endif %}
+
     </div>
 </div>
 {% endblock %}

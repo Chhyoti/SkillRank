@@ -16,4 +16,5 @@ urlpatterns = [
     path('intern/profile/<int:profile_id>/', views.view_intern_profile, name='view_intern_profile'),
     path('intern/profile/edit/', views.edit_intern_profile, name='edit_intern_profile'),
     path('top-matches/', views.top_matches, name='top_matches'),
+    path('employer/top-matches/', views.employer_top_matches, name='employer_top_matches'),
 ]
